@@ -15,6 +15,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import Symptoms from "./Symptoms";
+import Link from "next/link";
 
 export default function Steps() {
   const [selectedValue, setSelectedValue] = useState<string[]>([]);
@@ -81,8 +82,8 @@ export default function Steps() {
   const processResult = () => {};
 
   return (
-    <>
-      <Stepper active={active}>
+    <Box my="xl">
+      <Stepper active={active} my="xl">
         <Stepper.Step label="First step" description="Information">
           <Box
             style={{
@@ -113,35 +114,50 @@ export default function Steps() {
         </Stepper.Step>
 
         <Stepper.Step label="Second step" description="Diagnosis">
-          <Title ta="center" mt="lg" c={"green"}>
+          <Title fz="xl" ta="center" mt="lg" c={"green"}>
             Please select all the symptoms you are having
           </Title>
           <Symptoms
             selectedValue={selectedValue}
             setSelectedValue={setSelectedValue}
           />
-          step{active}
-          {joinedValue}
         </Stepper.Step>
         <Stepper.Completed>
-          <Text fz="lg">
+          <Text ta="center" fz="lg">
             Hello{" "}
             {gender == "Male" ? " Mr. " : gender == "Female" ? " Mrs. " : " "}
             {name}
           </Text>
-          <h1>{result}</h1>
+          <Text mb="xl" ta={"center"} fz="xl">
+            {result}
+          </Text>
+          <Box
+            mt="xl"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {/* <Link href={"/diagnose"}>
+              <Button>Diagnose Again</Button>
+            </Link> */}
+            <Link href={"/"}>
+              <Button size="md">Home Page</Button>
+            </Link>
+          </Box>
         </Stepper.Completed>
         {/* <Stepper.Completed>Completed! Form values:</Stepper.Completed> */}
       </Stepper>
 
       <Group justify="space-between" mt="xl">
-        {active !== 0 && (
+        {active !== 0 && active < 2 && (
           <Button variant="default" onClick={prevStep}>
             Back
           </Button>
         )}
         {active !== 2 && <Button onClick={nextStep}>Next step</Button>}
       </Group>
-    </>
+    </Box>
   );
 }
